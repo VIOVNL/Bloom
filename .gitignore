@@ -1,0 +1,70 @@
+# Build outputs
+bin/
+obj/
+publish/
+Releases/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+
+# Avalonia
+*.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & runtime
+*.log
+logs/
+
+# Secrets & environment
+.env
+.env.*
+!.env.example
+secrets.json
+appsettings.*.json
+!appsettings.json
+*.pfx
+*.pem
+*.key
+*.crt
+*.p12
+
+# Local databases / dumps
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+*.bak
+*.dump
+
+# Backup / temp files
+*.old
+*.orig
+*.tmp
+*.swp
+~$*
+
+# Reddit / scratch notes
+redditpost*.md

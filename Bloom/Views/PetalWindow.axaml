@@ -1,0 +1,59 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Bloom.Views.PetalWindow"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        Topmost="True"
+        CanResize="False"
+        ShowInTaskbar="False"
+        Icon="/Assets/bloom.ico"
+        DragDrop.AllowDrop="True">
+
+    <Window.Styles>
+        <!-- Invisible button shell for click handling -->
+        <Style Selector="Button.fabCircle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.fabCircle /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.fabCircle:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.fabCircle:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Glass circle visual -->
+        <Style Selector="Border.circleVis">
+            <Setter Property="Background" Value="{DynamicResource PetalGlassBg}"/>
+        </Style>
+        <Style Selector="Border.circleVis:pointerover">
+            <Setter Property="Background" Value="{DynamicResource PetalGlassHover}"/>
+        </Style>
+        <Style Selector="Button.fabCircle:pressed Border.circleVis">
+            <Setter Property="Background" Value="{DynamicResource PetalGlassPressed}"/>
+        </Style>
+
+        <!-- Tooltip style for label mode -->
+        <Style Selector="ToolTip">
+            <Setter Property="Background" Value="{DynamicResource LabelBgColor}"/>
+            <Setter Property="Foreground" Value="{DynamicResource LabelTextColor}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource LabelBorderColor}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+    </Window.Styles>
+
+    <Canvas x:Name="PetalCanvas" ClipToBounds="False" Background="Transparent"/>
+
+</Window>

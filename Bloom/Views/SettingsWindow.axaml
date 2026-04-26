@@ -1,0 +1,324 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Bloom.ViewModels"
+        x:Class="Bloom.Views.SettingsWindow"
+        x:DataType="vm:SettingsViewModel"
+        Title="Settings"
+        Icon="/Assets/bloom.ico"
+        Width="320" Height="590"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        Topmost="True">
+
+    <Window.Styles>
+        <!-- Base text -->
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <Style Selector="TextBlock.settingLabel">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBlock.settingDesc">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+        </Style>
+
+        <!-- Segmented control (label modes) -->
+        <Style Selector="Border.segmentedHost">
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Height" Value="28"/>
+        </Style>
+        <Style Selector="Border.segBtn">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="Border.segBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentHoverBg}"/>
+        </Style>
+        <Style Selector="Border.segBtn.active">
+            <Setter Property="Background" Value="{DynamicResource SegmentActiveBg}"/>
+        </Style>
+        <Style Selector="Border.segBtn TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Border.segBtn.active TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Toggle track -->
+        <Style Selector="Border.toggleTrack">
+            <Setter Property="Width" Value="38"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="CornerRadius" Value="11"/>
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorder}"/>
+        </Style>
+        <Style Selector="Border.toggleTrack.on">
+            <Setter Property="Background" Value="#339AF0"/>
+            <Setter Property="BorderBrush" Value="#4DA8F0"/>
+        </Style>
+        <!-- Toggle thumb -->
+        <Style Selector="Border.toggleThumb">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Background" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="2,0,0,0"/>
+        </Style>
+        <Style Selector="Border.toggleTrack.on Border.toggleThumb">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,0,2,0"/>
+        </Style>
+
+        <!-- Separator -->
+        <Style Selector="Border.separator">
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Background" Value="{DynamicResource InputBorder}"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+
+    </Window.Styles>
+
+    <!-- Main shell -->
+    <Border CornerRadius="14"
+            ClipToBounds="True"
+            BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <StackPanel Margin="20,16,20,18" Spacing="0">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,16">
+                <TextBlock Classes="heading" Text="Settings" VerticalAlignment="Center"/>
+                <Border x:Name="CloseBtn"
+                        Grid.Column="1"
+                        Width="26" Height="26" CornerRadius="13"
+                        Background="{DynamicResource CloseBtnBg}" Cursor="Hand"
+                        Focusable="True">
+                    <Viewbox Width="10" Height="10">
+                        <Canvas Width="24" Height="24">
+                            <Path Stroke="{DynamicResource CloseIconStroke}" StrokeThickness="2.5"
+                                  StrokeLineCap="Round" StrokeJoin="Round"
+                                  Data="M18 6 6 18 M6 6l12 12"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+            <!-- Row 1: Theme -->
+            <Grid ColumnDefinitions="*,Auto" Height="40">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Classes="settingLabel" Text="Theme"/>
+                    <TextBlock Classes="settingDesc" Text="{Binding ThemeDescription}"/>
+                </StackPanel>
+                <Border x:Name="ThemeToggle" Grid.Column="1" Classes="toggleTrack"
+                        Classes.on="{Binding !IsDarkTheme}"
+                        Focusable="True"
+                        VerticalAlignment="Center">
+                    <Border Classes="toggleThumb"/>
+                </Border>
+            </Grid>
+
+            <Border Classes="separator"/>
+
+            <!-- Row 2: Labels -->
+            <StackPanel Spacing="6" Margin="0,8,0,8">
+                <StackPanel>
+                    <TextBlock Classes="settingLabel" Text="Petal Labels"/>
+                    <TextBlock Classes="settingDesc" Text="{Binding LabelDescription}"/>
+                </StackPanel>
+                <Border Classes="segmentedHost">
+                    <Grid ColumnDefinitions="*,*,*,*">
+                        <Border x:Name="LabelBelow" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding LabelMode, Converter={StaticResource EnumEquals}, ConverterParameter=Below}"
+                                Grid.Column="0">
+                            <TextBlock Text="Below"/>
+                        </Border>
+                        <Border x:Name="LabelTooltip" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding LabelMode, Converter={StaticResource EnumEquals}, ConverterParameter=Tooltip}"
+                                Grid.Column="1">
+                            <TextBlock Text="Tooltip"/>
+                        </Border>
+                        <Border x:Name="LabelOverlay" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding LabelMode, Converter={StaticResource EnumEquals}, ConverterParameter=Overlay}"
+                                Grid.Column="2">
+                            <TextBlock Text="Overlay"/>
+                        </Border>
+                        <Border x:Name="LabelHidden" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding LabelMode, Converter={StaticResource EnumEquals}, ConverterParameter=Hidden}"
+                                Grid.Column="3">
+                            <TextBlock Text="Hidden"/>
+                        </Border>
+                    </Grid>
+                </Border>
+                <!-- Live preview of selected label mode -->
+                <Border x:Name="LabelPreviewHost"
+                        Height="64" CornerRadius="8" ClipToBounds="True">
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource IconGridBg}"/>
+                    </Border.Background>
+                </Border>
+            </StackPanel>
+
+            <Border Classes="separator"/>
+
+            <!-- Row 3: Start with Windows -->
+            <Grid ColumnDefinitions="*,Auto" Height="40" Margin="0,2,0,0">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Classes="settingLabel" Text="Launch at Startup"/>
+                    <TextBlock Classes="settingDesc" Text="Start Bloom when Windows boots"/>
+                </StackPanel>
+                <Border x:Name="StartupToggle" Grid.Column="1" Classes="toggleTrack"
+                        Classes.on="{Binding StartWithWindows}"
+                        Focusable="True"
+                        VerticalAlignment="Center">
+                    <Border Classes="toggleThumb"/>
+                </Border>
+            </Grid>
+
+            <Border Classes="separator"/>
+
+            <!-- Row 4: Auto Update -->
+            <Grid ColumnDefinitions="*,Auto" Height="40" Margin="0,2,0,0">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Classes="settingLabel" Text="Auto Update"/>
+                    <TextBlock Classes="settingDesc" Text="{Binding AutoUpdateDescription}"/>
+                </StackPanel>
+                <Border x:Name="AutoUpdateToggle" Grid.Column="1" Classes="toggleTrack"
+                        Classes.on="{Binding AutoUpdate}"
+                        Focusable="True"
+                        VerticalAlignment="Center">
+                    <Border Classes="toggleThumb"/>
+                </Border>
+            </Grid>
+
+            <Border Classes="separator"/>
+
+            <!-- Row 5: UnBloom on Focus Loss -->
+            <Grid ColumnDefinitions="*,Auto" Height="40" Margin="0,2,0,0">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Classes="settingLabel" Text="Auto UnBloom"/>
+                    <TextBlock Classes="settingDesc" Text="{Binding UnBloomDescription}"/>
+                </StackPanel>
+                <Border x:Name="UnBloomToggle" Grid.Column="1" Classes="toggleTrack"
+                        Classes.on="{Binding UnBloomOnFocusLoss}"
+                        Focusable="True"
+                        VerticalAlignment="Center">
+                    <Border Classes="toggleThumb"/>
+                </Border>
+            </Grid>
+
+            <Border Classes="separator"/>
+
+            <!-- Row 6: Always on Top -->
+            <Grid ColumnDefinitions="*,Auto" Height="40" Margin="0,2,0,0">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Classes="settingLabel" Text="Always on Top"/>
+                    <TextBlock Classes="settingDesc" Text="{Binding AlwaysOnTopDescription}"/>
+                </StackPanel>
+                <Border x:Name="AlwaysOnTopToggle" Grid.Column="1" Classes="toggleTrack"
+                        Classes.on="{Binding AlwaysOnTop}"
+                        Focusable="True"
+                        VerticalAlignment="Center">
+                    <Border Classes="toggleThumb"/>
+                </Border>
+            </Grid>
+
+            <Border Classes="separator"/>
+
+            <!-- Row 7: Manage Hotkeys -->
+            <Grid ColumnDefinitions="*,Auto" Height="40" Margin="0,2,0,0">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Classes="settingLabel" Text="Hotkeys"/>
+                    <TextBlock Classes="settingDesc" Text="Manage global and item hotkeys"/>
+                </StackPanel>
+                <Border x:Name="ManageHotkeysBtn" Grid.Column="1"
+                        Background="{DynamicResource SegmentBg}"
+                        CornerRadius="8" Padding="10,4" Height="26"
+                        Cursor="Hand" Focusable="True"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource InputBorder}"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="Manage..."
+                               FontSize="11" FontWeight="Medium"
+                               Foreground="{DynamicResource TextSecondary}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+
+            <Border Classes="separator"/>
+
+            <!-- Row 8: App Scale -->
+            <StackPanel Spacing="6" Margin="0,8,0,0">
+                <StackPanel>
+                    <TextBlock Classes="settingLabel" Text="App Scale"/>
+                    <TextBlock Classes="settingDesc" Text="{Binding ScaleDescription}"/>
+                </StackPanel>
+                <Border Classes="segmentedHost">
+                    <Grid ColumnDefinitions="*,*,*,*">
+                        <Border x:Name="ScaleSmall" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding Scale, Converter={StaticResource EnumEquals}, ConverterParameter=Small}"
+                                Grid.Column="0">
+                            <TextBlock Text="S"/>
+                        </Border>
+                        <Border x:Name="ScaleMedium" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding Scale, Converter={StaticResource EnumEquals}, ConverterParameter=Medium}"
+                                Grid.Column="1">
+                            <TextBlock Text="M"/>
+                        </Border>
+                        <Border x:Name="ScaleLarge" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding Scale, Converter={StaticResource EnumEquals}, ConverterParameter=Large}"
+                                Grid.Column="2">
+                            <TextBlock Text="L"/>
+                        </Border>
+                        <Border x:Name="ScaleExtraLarge" Classes="segBtn" Focusable="True"
+                                Classes.active="{Binding Scale, Converter={StaticResource EnumEquals}, ConverterParameter=ExtraLarge}"
+                                Grid.Column="3">
+                            <TextBlock Text="XL"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+</Window>

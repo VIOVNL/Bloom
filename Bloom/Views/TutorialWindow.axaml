@@ -1,0 +1,179 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Bloom.Views.TutorialWindow"
+        Title="Welcome to Bloom"
+        Icon="/Assets/bloom.ico"
+        Width="420" Height="380"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        Topmost="True">
+
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <Style Selector="TextBlock.stepTitle">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBlock.stepDesc">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <!-- Dot indicators -->
+        <Style Selector="Border.dot">
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="{DynamicResource InputBorder}"/>
+            <Setter Property="Margin" Value="3,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.dot.active">
+            <Setter Property="Background" Value="#339AF0"/>
+            <Setter Property="Width" Value="20"/>
+        </Style>
+
+        <!-- Nav buttons -->
+        <Style Selector="Border.navBtn">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#339AF0"/>
+        </Style>
+        <Style Selector="Border.navBtn:pointerover">
+            <Setter Property="Opacity" Value="0.9"/>
+        </Style>
+        <Style Selector="Border.navBtn TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+        <Style Selector="Border.backBtn">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+        </Style>
+        <Style Selector="Border.backBtn:pointerover">
+            <Setter Property="Opacity" Value="0.85"/>
+        </Style>
+        <Style Selector="Border.backBtn TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+
+        <!-- Skip link -->
+        <Style Selector="TextBlock.skipLink">
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="TextBlock.skipLink:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+    </Window.Styles>
+
+    <!-- Main shell -->
+    <Border CornerRadius="16"
+            ClipToBounds="True"
+            BorderThickness="1"
+            x:Name="Shell">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid RowDefinitions="Auto,*,Auto" Margin="24,20,24,20">
+
+            <!-- Header: dots -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal"
+                        HorizontalAlignment="Center" Margin="0,0,0,16">
+                <Border x:Name="Dot0" Classes="dot active"/>
+                <Border x:Name="Dot1" Classes="dot"/>
+                <Border x:Name="Dot2" Classes="dot"/>
+                <Border x:Name="Dot3" Classes="dot"/>
+                <Border x:Name="Dot4" Classes="dot"/>
+                <Border x:Name="Dot5" Classes="dot"/>
+                <Border x:Name="Dot6" Classes="dot"/>
+                <Border x:Name="Dot7" Classes="dot"/>
+                <Border x:Name="Dot8" Classes="dot"/>
+                <Border x:Name="Dot9" Classes="dot"/>
+            </StackPanel>
+
+            <!-- Body: icon + text -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="12">
+                <!-- Icon circle -->
+                <Border Width="80" Height="80" CornerRadius="40"
+                        HorizontalAlignment="Center"
+                        Background="{DynamicResource SegmentBg}">
+                    <Viewbox Width="36" Height="36">
+                        <Canvas Width="24" Height="24">
+                            <Path x:Name="StepIcon"
+                                  Stroke="#339AF0" StrokeThickness="1.8"
+                                  StrokeLineCap="Round" StrokeJoin="Round"
+                                  Fill="Transparent"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+
+                <!-- Title -->
+                <TextBlock x:Name="StepTitle" Classes="stepTitle"
+                           Text="Welcome to Bloom"/>
+
+                <!-- Description -->
+                <TextBlock x:Name="StepDesc" Classes="stepDesc"
+                           Text="Your apps live in the floating flower button. Left-click it to open your launcher."
+                           MaxWidth="320"/>
+            </StackPanel>
+
+            <!-- Footer: Back / Next / Skip -->
+            <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" Margin="0,16,0,0">
+                <!-- Back button -->
+                <Border x:Name="BackBtn" Classes="backBtn"
+                        Grid.Column="0" Focusable="True"
+                        IsVisible="False">
+                    <TextBlock Text="Back"/>
+                </Border>
+
+                <!-- Skip link (centered) -->
+                <TextBlock x:Name="SkipLink" Classes="skipLink"
+                           Grid.Column="1"
+                           Text="Skip tutorial"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <!-- Next / Get Started button -->
+                <Border x:Name="NextBtn" Classes="navBtn"
+                        Grid.Column="2" Focusable="True">
+                    <TextBlock x:Name="NextBtnText" Text="Next"/>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

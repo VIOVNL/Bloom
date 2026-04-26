@@ -1,0 +1,167 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Bloom.ViewModels"
+        x:Class="Bloom.Views.AboutWindow"
+        x:DataType="vm:AboutViewModel"
+        Title="About"
+        Icon="/Assets/bloom.ico"
+        Width="300" Height="240"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        Topmost="True">
+
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.appName">
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <Style Selector="TextBlock.version">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+        </Style>
+        <Style Selector="TextBlock.company">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+        <Style Selector="TextBlock.link">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#339AF0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="TextBlock.link:pointerover">
+            <Setter Property="Foreground" Value="#5BB0F5"/>
+        </Style>
+        <Style Selector="Button.linkBtn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="MinWidth" Value="0"/>
+        </Style>
+        <Style Selector="Button.linkBtn:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.linkBtn TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#339AF0"/>
+        </Style>
+        <Style Selector="Button.linkBtn:pointerover TextBlock">
+            <Setter Property="Foreground" Value="#5BB0F5"/>
+        </Style>
+        <Style Selector="Border.separator">
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Background" Value="{DynamicResource InputBorder}"/>
+            <Setter Property="Margin" Value="0,8"/>
+        </Style>
+
+        <!-- Check for updates button -->
+        <Style Selector="Button.updateBtn">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBg}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorder}"/>
+        </Style>
+        <Style Selector="Button.updateBtn:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBgHover}"/>
+        </Style>
+        <Style Selector="Button.updateBtn TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Styles>
+
+    <!-- Main shell -->
+    <Border CornerRadius="14"
+            ClipToBounds="True"
+            BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <StackPanel Margin="20,16,20,18" Spacing="0">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Classes="appName" Text="Bloom"/>
+                    <TextBlock Classes="version" x:Name="VersionText" Text="{Binding VersionText}"/>
+                </StackPanel>
+                <Border x:Name="CloseBtn"
+                        Grid.Column="1"
+                        Width="26" Height="26" CornerRadius="13"
+                        Background="{DynamicResource CloseBtnBg}" Cursor="Hand"
+                        Focusable="True"
+                        VerticalAlignment="Top">
+                    <Viewbox Width="10" Height="10">
+                        <Canvas Width="24" Height="24">
+                            <Path Stroke="{DynamicResource CloseIconStroke}" StrokeThickness="2.5"
+                                  StrokeLineCap="Round" StrokeJoin="Round"
+                                  Data="M18 6 6 18 M6 6l12 12"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+            <!-- Company -->
+            <TextBlock Classes="company" Text="by Viov Software Development"/>
+
+            <Border Classes="separator"/>
+
+            <!-- Links -->
+            <StackPanel Spacing="6">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="Website" Foreground="{DynamicResource TextTertiary}" FontSize="11" Width="50"/>
+                    <Button Classes="linkBtn" Command="{Binding OpenUrlCommand}" CommandParameter="https://bloom.viov.nl">
+                        <TextBlock Text="bloom.viov.nl"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="Email" Foreground="{DynamicResource TextTertiary}" FontSize="11" Width="50"/>
+                    <Button Classes="linkBtn" Command="{Binding OpenUrlCommand}" CommandParameter="mailto:hi@viov.nl">
+                        <TextBlock Text="hi@viov.nl"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="Studio" Foreground="{DynamicResource TextTertiary}" FontSize="11" Width="50"/>
+                    <Button Classes="linkBtn" Command="{Binding OpenUrlCommand}" CommandParameter="https://viov.nl">
+                        <TextBlock Text="viov.nl"/>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <Border Classes="separator"/>
+
+            <!-- Check for updates -->
+            <Button Classes="updateBtn" Command="{Binding CheckForUpdateCommand}">
+                <TextBlock Text="{Binding UpdateButtonText}"/>
+            </Button>
+            <TextBlock x:Name="UpdateStatusText" Classes="version"
+                       HorizontalAlignment="Center" Margin="0,4,0,0"
+                       Text="{Binding UpdateStatusText}"/>
+
+        </StackPanel>
+    </Border>
+</Window>

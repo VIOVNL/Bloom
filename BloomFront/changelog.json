@@ -1,0 +1,246 @@
+[
+  {
+    "version": "1.0.21",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "text": "Bug fixes and improvements"
+      }
+    ]
+  },
+  {
+    "version": "1.0.20",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Bug fixes and improvements",
+        "type": "fixed"
+      }
+    ]
+  },
+  {
+    "version": "1.0.19",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Bug fixes and improvements",
+        "type": "fixed"
+      }
+    ]
+  },
+  {
+    "version": "1.0.18",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "text": "Bug fixes and improvements"
+      }
+    ]
+  },
+  {
+    "version": "1.0.17",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "text": "Bug fixes and improvements"
+      }
+    ]
+  },
+  {
+    "version": "1.0.16",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Bug fixes and improvements",
+        "type": "fixed"
+      }
+    ]
+  },
+  {
+    "version": "1.0.15",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "text": "Bug fixes and improvements"
+      }
+    ]
+  },
+  {
+    "version": "1.0.14",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "text": "Bug fixes and improvements"
+      }
+    ]
+  },
+  {
+    "version": "1.0.13",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "text": "Bug fixes and improvements"
+      }
+    ]
+  },
+  {
+    "version": "1.0.12",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Bug fixes and improvements",
+        "type": "fixed"
+      }
+    ]
+  },
+  {
+    "version": "1.0.11",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Scaling options",
+        "type": "added"
+      }
+    ]
+  },
+  {
+    "version": "1.0.10",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Bug fixes and improvements",
+        "type": "fixed"
+      }
+    ]
+  },
+  {
+    "version": "1.0.9",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Bug fixes and improvements",
+        "type": "fixed"
+      }
+    ]
+  },
+  {
+    "version": "1.0.8",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "text": "Bug fixes and improvements"
+      }
+    ]
+  },
+  {
+    "version": "1.0.7",
+    "date": "March 2026",
+    "changes": [
+      {
+        "text": "Release",
+        "type": "added"
+      }
+    ]
+  },
+  {
+    "version": "1.0.5",
+    "date": "March 2026",
+    "changes": [
+      {
+        "type": "added",
+        "text": "Radial petal launcher with smooth staggered bloom animations"
+      },
+      {
+        "type": "added",
+        "text": "5 item types: Software, Folders, Commands, System Actions, Keyboard Shortcuts"
+      },
+      {
+        "type": "added",
+        "text": "28 built-in Windows system actions"
+      },
+      {
+        "type": "added",
+        "text": "1000+ Lucide icons with search and pagination"
+      },
+      {
+        "type": "added",
+        "text": "52 customizable petal colors across 4 palettes"
+      },
+      {
+        "type": "added",
+        "text": "Mouse-following petal repel effect"
+      },
+      {
+        "type": "added",
+        "text": "Draggable bloom button with position persistence"
+      },
+      {
+        "type": "added",
+        "text": "Edge-aware multi-layer layout engine (auto-adjusts for screen boundaries)"
+      },
+      {
+        "type": "added",
+        "text": "Multi-ring support: 2 rings at 6+ items, 3 rings at 25+"
+      },
+      {
+        "type": "added",
+        "text": "Always-on-top floating bloom button with position persistence"
+      },
+      {
+        "type": "added",
+        "text": "Dark and Light themes"
+      },
+      {
+        "type": "added",
+        "text": "4 label display modes: Below, Tooltip, Overlay, Hidden"
+      },
+      {
+        "type": "added",
+        "text": "Auto-update via Velopack with delta updates"
+      },
+      {
+        "type": "added",
+        "text": "Start with Windows option (registry-based)"
+      },
+      {
+        "type": "added",
+        "text": "Auto-close menu on focus loss"
+      },
+      {
+        "type": "added",
+        "text": "Icon extraction from .exe files via Win32 API"
+      },
+      {
+        "type": "added",
+        "text": "Custom icon file support (PNG, JPG)"
+      },
+      {
+        "type": "added",
+        "text": "Tab-based multi-type item editor with state persistence"
+      },
+      {
+        "type": "added",
+        "text": "Right-click to edit any petal"
+      },
+      {
+        "type": "added",
+        "text": "JSON configuration with smart fallback paths"
+      },
+      {
+        "type": "added",
+        "text": "Windows 10 and 11 support"
+      },
+      {
+        "type": "added",
+        "text": "Lightweight and fast — launches instantly"
+      }
+    ]
+  }
+]

@@ -1,0 +1,238 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Bloom.ViewModels"
+        x:Class="Bloom.Views.IconChooserWindow"
+        x:DataType="vm:IconChooserViewModel"
+        Title="Choose Icon"
+        Icon="/Assets/bloom.ico"
+        Width="520" Height="680"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        Topmost="True"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent">
+
+    <Window.Styles>
+        <!-- ══════ Base text ══════ -->
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <!-- ══════ Icon grid items ══════ -->
+        <Style Selector="Border.iconItem">
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Margin" Value="1.5"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.iconItem:pointerover">
+            <Setter Property="Background" Value="{DynamicResource IconItemHoverBg}"/>
+        </Style>
+        <Style Selector="Border.iconItem.selected">
+            <Setter Property="BorderBrush" Value="{DynamicResource IconItemSelectedBorder}"/>
+            <Setter Property="Background" Value="{DynamicResource IconItemHoverBg}"/>
+        </Style>
+
+        <!-- ══════ Color dots ══════ -->
+        <Style Selector="Border.colorDot">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="CornerRadius" Value="11"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Opacity" Value="0.85"/>
+        </Style>
+        <Style Selector="Border.colorDot:pointerover">
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
+        <Style Selector="Border.colorDot.selected">
+            <Setter Property="BorderBrush" Value="{DynamicResource ColorDotSelectedBorder}"/>
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
+
+        <!-- ══════ Page buttons ══════ -->
+        <Style Selector="Border.pageBtn">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.pageBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentHoverBg}"/>
+        </Style>
+        <Style Selector="Border.pageBtn.disabled">
+            <Setter Property="Opacity" Value="0.35"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+        </Style>
+        <Style Selector="Border.pageBtn.disabled:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+        </Style>
+
+        <!-- ══════ Action buttons ══════ -->
+        <Style Selector="Border.btnSelect">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="28,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.btnSelect:pointerover">
+            <Setter Property="Opacity" Value="0.9"/>
+        </Style>
+    </Window.Styles>
+
+    <!-- ══════ Main shell ══════ -->
+    <Border CornerRadius="16"
+            ClipToBounds="True"
+            BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- ══════ Top bar ══════ -->
+            <Grid Grid.Row="0" Margin="20,16,20,0" ColumnDefinitions="*,Auto">
+                <TextBlock Classes="heading" Text="Choose Icon" VerticalAlignment="Center"/>
+                <Border Grid.Column="1" x:Name="CloseBtn"
+                        Width="28" Height="28" CornerRadius="14"
+                        Background="{DynamicResource CloseBtnBg}" Cursor="Hand"
+                        Focusable="True">
+                    <Viewbox Width="12" Height="12">
+                        <Canvas Width="24" Height="24">
+                            <Path Stroke="{DynamicResource CloseIconStroke}" StrokeThickness="2"
+                                  StrokeLineCap="Round" StrokeJoin="Round"
+                                  Data="M18 6 6 18 M6 6l12 12"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+            <!-- ══════ Content (no outer scroll!) ══════ -->
+            <Grid Grid.Row="1" RowDefinitions="Auto,Auto,*,Auto,Auto" Margin="20,14,20,0">
+
+                <!-- Live preview -->
+                <Border Grid.Row="0" HorizontalAlignment="Center"
+                        Width="64" Height="64" CornerRadius="32"
+                        ClipToBounds="True"
+                        x:Name="PreviewCircle" Margin="0,0,0,10">
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource PreviewCircleBg}"/>
+                    </Border.Background>
+                    <Viewbox Width="30" Height="30"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             x:Name="PreviewIcon"/>
+                </Border>
+
+                <!-- Search -->
+                <TextBox Grid.Row="1" x:Name="IconSearchBox" Classes="pill"
+                         Watermark="Search 1700+ icons..."
+                         Height="30" FontSize="11" Padding="10,6"
+                         Margin="0,0,0,8"/>
+
+                <!-- Icon grid (fills remaining space) -->
+                <Border Grid.Row="2" Background="{DynamicResource IconGridBg}" CornerRadius="10"
+                        ClipToBounds="True">
+                    <ScrollViewer x:Name="IconScrollViewer"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Visible"
+                                  Padding="6,6,2,0">
+                        <StackPanel x:Name="IconGrid"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,0,0,20"/>
+                    </ScrollViewer>
+                </Border>
+
+                <!-- Page controls -->
+                <Grid Grid.Row="3" ColumnDefinitions="Auto,*,Auto,*,Auto" Margin="0,8,0,8"
+                      Height="26">
+                    <Border x:Name="PrevPageBtn" Grid.Column="0" Classes="pageBtn"
+                            Classes.disabled="{Binding !CanGoBack}"
+                            Focusable="True"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="← Prev" FontSize="11" FontWeight="Medium"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Grid.Column="2" x:Name="PageIndicator"
+                               Text="{Binding PageLabel}"
+                               FontSize="11"
+                               Foreground="{DynamicResource TextTertiary}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <Border x:Name="NextPageBtn" Grid.Column="4" Classes="pageBtn"
+                            Classes.disabled="{Binding !CanGoForward}"
+                            Focusable="True"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Next →" FontSize="11" FontWeight="Medium"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <!-- Color picker -->
+                <StackPanel Grid.Row="4" Spacing="4" Margin="0,2,0,4">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <TextBlock Classes="label" Text="COLOR" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="2" x:Name="HexInput" Classes="pill"
+                                 Width="90" Height="26" FontSize="11" Padding="8,4"
+                                 Watermark="#FFFFFF" MaxLength="7"
+                                 VerticalAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 TextAlignment="Center"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="Auto,*" Margin="0,2,0,0">
+                        <ColorSpectrum x:Name="SpectrumPicker"
+                                       Width="110" Height="110"
+                                       MinWidth="110" MinHeight="110"
+                                       MaxWidth="110" MaxHeight="110"
+                                       Margin="0,0,8,0"
+                                       VerticalAlignment="Top"/>
+                        <WrapPanel Grid.Column="1" x:Name="ColorGrid"
+                                   VerticalAlignment="Top"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!-- ══════ Bottom bar ══════ -->
+            <Grid Grid.Row="2" Margin="20,10,20,16" ColumnDefinitions="Auto,*,Auto">
+                <Border x:Name="CancelBtn" Classes="btnCancel" Focusable="True">
+                    <TextBlock Text="Cancel" FontSize="13"
+                               Foreground="{DynamicResource TextTertiary}"
+                               VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="SelectBtn" Grid.Column="2" Classes="btnSelect" Focusable="True"
+                        Background="#339AF0">
+                    <TextBlock Text="Select" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

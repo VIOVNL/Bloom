@@ -1,0 +1,248 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Bloom.ViewModels"
+        x:Class="Bloom.Views.AddGroupWindow"
+        x:DataType="vm:AddGroupViewModel"
+        Title="Create Group"
+        Icon="/Assets/bloom.ico"
+        Width="560" Height="710"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent">
+
+    <Window.Styles>
+        <!-- Base text -->
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Pill text inputs -->
+        <Style Selector="TextBox.pill.invalid /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource InvalidBorder}"/>
+            <Setter Property="Background" Value="{DynamicResource InvalidBg}"/>
+        </Style>
+
+        <!-- Required star -->
+        <Style Selector="TextBlock.req">
+            <Setter Property="Foreground" Value="{DynamicResource RequiredStar}"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+        <!-- Browse button (used for icon chooser) -->
+        <Style Selector="Border.browseBtn">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnSecondaryBorderBrush}"/>
+        </Style>
+        <Style Selector="Border.browseBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBgHover}"/>
+        </Style>
+
+        <!-- Group list items -->
+        <Style Selector="Border.listItem">
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="6"/>
+        </Style>
+        <Style Selector="Border.listItem:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentHoverBg}"/>
+        </Style>
+
+        <!-- Action buttons -->
+        <Style Selector="Border.btnAdd">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="28,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.btnAdd:pointerover">
+            <Setter Property="Opacity" Value="0.9"/>
+        </Style>
+        <Style Selector="Border.btnAdd.disabled">
+            <Setter Property="Opacity" Value="0.35"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+        </Style>
+    </Window.Styles>
+
+    <!-- Main shell -->
+    <Border CornerRadius="16"
+            ClipToBounds="True"
+            BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Top bar (title + close) -->
+            <Grid Grid.Row="0" Margin="20,16,20,0" ColumnDefinitions="*,Auto">
+                <TextBlock Classes="heading" Text="{Binding WindowTitle}" VerticalAlignment="Center"/>
+                <Border Grid.Column="1" x:Name="CloseBtn"
+                        Width="28" Height="28" CornerRadius="14"
+                        Background="{DynamicResource CloseBtnBg}" Cursor="Hand"
+                        Focusable="True">
+                    <Border.RenderTransform>
+                        <ScaleTransform/>
+                    </Border.RenderTransform>
+                    <Viewbox Width="12" Height="12">
+                        <Canvas Width="24" Height="24">
+                            <Path Stroke="{DynamicResource CloseIconStroke}" StrokeThickness="2"
+                                  StrokeLineCap="Round" StrokeJoin="Round"
+                                  Data="M18 6 6 18 M6 6l12 12"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+            <!-- Scrollable content -->
+            <ScrollViewer Grid.Row="1" Margin="20,14,4,0"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="14" Margin="0,0,16,0">
+
+                    <!-- Live preview circle -->
+                    <Border HorizontalAlignment="Center"
+                            Width="56" Height="56" CornerRadius="28"
+                            ClipToBounds="True"
+                            x:Name="PreviewCircle" Margin="0,0,0,2">
+                        <Border.Background>
+                            <SolidColorBrush Color="{DynamicResource PreviewCircleBg}"/>
+                        </Border.Background>
+                        <Viewbox Width="26" Height="26"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 x:Name="PreviewIcon"/>
+                    </Border>
+
+                    <!-- Label -->
+                    <StackPanel Spacing="0">
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <TextBlock Classes="label" Text="GROUP NAME"/>
+                            <TextBlock Classes="req" Text="*"/>
+                        </StackPanel>
+                        <TextBox x:Name="LabelBox" Classes="pill"
+                                 Text="{Binding Label}"
+                                 Watermark="e.g. Entertainment, Work, Games..."/>
+                    </StackPanel>
+
+                    <!-- Items -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Classes="label" Text="ITEMS"/>
+
+                        <!-- Search box -->
+                        <TextBox x:Name="SearchBox" Classes="pill"
+                                 Watermark="Search items..."
+                                 Margin="0,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Dual item lists -->
+                    <Grid ColumnDefinitions="*,12,*" MinHeight="200">
+                        <!-- Available column -->
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock Text="Available" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextTertiary}"/>
+                            <Border Background="{DynamicResource InputBg}"
+                                    CornerRadius="10" BorderThickness="1"
+                                    BorderBrush="{DynamicResource InputBorder}"
+                                    ClipToBounds="True" MinHeight="180">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Auto"
+                                              MaxHeight="260">
+                                    <StackPanel x:Name="AvailableList" Spacing="0"/>
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- In Group column -->
+                        <StackPanel Grid.Column="2" Spacing="4">
+                            <TextBlock Text="In Group" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextTertiary}"/>
+                            <Border Background="{DynamicResource InputBg}"
+                                    CornerRadius="10" BorderThickness="1"
+                                    BorderBrush="{DynamicResource InputBorder}"
+                                    ClipToBounds="True" MinHeight="180">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Auto"
+                                              MaxHeight="260">
+                                    <StackPanel x:Name="SelectedList" Spacing="0"/>
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Icon & Color preview (opens IconChooserWindow) -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Classes="label" Text="ICON &amp; COLOR"/>
+                        <Border x:Name="ChooseIconBtn" Classes="browseBtn" Focusable="True"
+                                HorizontalAlignment="Left" Padding="8,6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border Width="26" Height="26" CornerRadius="13"
+                                        Background="{DynamicResource PreviewCircleBg}" ClipToBounds="True"
+                                        x:Name="IconMiniPreview">
+                                    <Viewbox Width="14" Height="14"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             x:Name="IconMiniPreviewIcon"/>
+                                </Border>
+                                <TextBlock x:Name="IconMiniLabel"
+                                           Text="layers"
+                                           FontSize="12" Foreground="{DynamicResource TextMuted}"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="Change..."
+                                           FontSize="11" Foreground="{DynamicResource TextPlaceholderFocus}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Spacer at bottom for scroll -->
+                    <Border Height="4"/>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom action bar -->
+            <Grid Grid.Row="2" Margin="20,10,20,16" ColumnDefinitions="Auto,8,Auto,*,Auto">
+                <Border x:Name="CancelBtn" Grid.Column="0" Classes="btnCancel" Focusable="True">
+                    <TextBlock Text="Cancel" FontSize="13"
+                               Foreground="{DynamicResource TextTertiary}"
+                               VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="DeleteBtn" Grid.Column="2" Classes="btnAdd" Focusable="True"
+                        Background="#FF6B6B" IsVisible="{Binding IsEditMode}">
+                    <TextBlock Text="Delete" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="AddBtn" Grid.Column="4" Classes="btnAdd" Focusable="True"
+                        Classes.disabled="{Binding !CanConfirm}"
+                        Background="#339AF0">
+                    <TextBlock Text="{Binding ConfirmButtonText}" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

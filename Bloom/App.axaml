@@ -1,0 +1,216 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Bloom.App"
+             xmlns:local="using:Bloom"
+             xmlns:conv="using:Bloom.Converters"
+             RequestedThemeVariant="Default">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <conv:EnumEqualsConverter x:Key="EnumEquals"/>
+            <ResourceDictionary.ThemeDictionaries>
+                <!-- ══════ Dark Theme ══════ -->
+                <ResourceDictionary x:Key="Dark">
+                    <!-- Bloom button -->
+                    <Color x:Key="BloomButtonBgStart">#E5252525</Color>
+                    <Color x:Key="BloomButtonBgEnd">#EC1A1A1A</Color>
+                    <Color x:Key="BloomButtonBgStartSolid">#FF252525</Color>
+                    <Color x:Key="BloomButtonBgEndSolid">#FF1A1A1A</Color>
+                    <Color x:Key="BloomButtonBorderStart">#35FFFFFF</Color>
+                    <Color x:Key="BloomButtonBorderEnd">#10FFFFFF</Color>
+                    <!-- Petal glass -->
+                    <Color x:Key="PetalGlassBg">#E0222222</Color>
+                    <Color x:Key="PetalGlassHover">#FF333333</Color>
+                    <Color x:Key="PetalGlassPressed">#FF282828</Color>
+                    <Color x:Key="PetalBorderStart">#28FFFFFF</Color>
+                    <Color x:Key="PetalBorderEnd">#08FFFFFF</Color>
+                    <!-- Dialog shell -->
+                    <Color x:Key="DialogBgStart">#F0191919</Color>
+                    <Color x:Key="DialogBgEnd">#F5141414</Color>
+                    <Color x:Key="DialogBorderStart">#30FFFFFF</Color>
+                    <Color x:Key="DialogBorderEnd">#10FFFFFF</Color>
+                    <!-- Text -->
+                    <Color x:Key="TextPrimary">#F0FFFFFF</Color>
+                    <Color x:Key="TextSecondary">#CCFFFFFF</Color>
+                    <Color x:Key="TextTertiary">#80FFFFFF</Color>
+                    <Color x:Key="TextQuaternary">#60FFFFFF</Color>
+                    <Color x:Key="TextDisabled">#40FFFFFF</Color>
+                    <Color x:Key="TextPlaceholder">#35FFFFFF</Color>
+                    <Color x:Key="TextPlaceholderHover">#50FFFFFF</Color>
+                    <Color x:Key="TextPlaceholderFocus">#60FFFFFF</Color>
+                    <Color x:Key="TextMuted">#A0FFFFFF</Color>
+                    <!-- Input controls -->
+                    <Color x:Key="InputBg">#12FFFFFF</Color>
+                    <Color x:Key="InputBgHover">#18FFFFFF</Color>
+                    <Color x:Key="InputBorder">#18FFFFFF</Color>
+                    <Color x:Key="InputBorderFocus">#40FFFFFF</Color>
+                    <Color x:Key="InputFg">#E0FFFFFF</Color>
+                    <Color x:Key="InputCaret">#80FFFFFF</Color>
+                    <!-- Buttons -->
+                    <Color x:Key="BtnSecondaryBg">#15FFFFFF</Color>
+                    <Color x:Key="BtnSecondaryBgHover">#22FFFFFF</Color>
+                    <Color x:Key="BtnSecondaryBorderBrush">#18FFFFFF</Color>
+                    <!-- Segmented control -->
+                    <Color x:Key="SegmentBg">#18FFFFFF</Color>
+                    <Color x:Key="SegmentActiveBg">#30FFFFFF</Color>
+                    <Color x:Key="SegmentHoverBg">#10FFFFFF</Color>
+                    <!-- Action items -->
+                    <Color x:Key="ActionItemBg">#12FFFFFF</Color>
+                    <Color x:Key="ActionItemBgHover">#20FFFFFF</Color>
+                    <Color x:Key="ActionItemSelectedBorder">#60FFFFFF</Color>
+                    <!-- Misc -->
+                    <Color x:Key="CloseBtnBg">#15FFFFFF</Color>
+                    <Color x:Key="CloseIconStroke">#80FFFFFF</Color>
+                    <Color x:Key="PreviewCircleBg">#333333</Color>
+                    <Color x:Key="IconGridBg">#08FFFFFF</Color>
+                    <Color x:Key="InvalidBorder">#50FF4444</Color>
+                    <Color x:Key="InvalidBg">#08FF4444</Color>
+                    <Color x:Key="RequiredStar">#60FF6B6B</Color>
+                    <Color x:Key="ColorDotSelectedBorder">#CCFFFFFF</Color>
+                    <Color x:Key="IconItemSelectedBorder">#60FFFFFF</Color>
+                    <Color x:Key="IconItemHoverBg">#15FFFFFF</Color>
+                    <Color x:Key="ShortcutRecordingBorder">#60339AF0</Color>
+                    <Color x:Key="ShortcutRecordingBg">#15339AF0</Color>
+                    <!-- Labels -->
+                    <Color x:Key="LabelTextColor">#E0FFFFFF</Color>
+                    <Color x:Key="LabelBgColor">#E0222222</Color>
+                    <Color x:Key="LabelBorderColor">#28FFFFFF</Color>
+                </ResourceDictionary>
+
+                <!-- ══════ Light Theme ══════ -->
+                <ResourceDictionary x:Key="Light">
+                    <!-- Bloom button -->
+                    <Color x:Key="BloomButtonBgStart">#E5F5F5F5</Color>
+                    <Color x:Key="BloomButtonBgEnd">#ECE8E8E8</Color>
+                    <Color x:Key="BloomButtonBgStartSolid">#FFF5F5F5</Color>
+                    <Color x:Key="BloomButtonBgEndSolid">#FFE8E8E8</Color>
+                    <Color x:Key="BloomButtonBorderStart">#20000000</Color>
+                    <Color x:Key="BloomButtonBorderEnd">#08000000</Color>
+                    <!-- Petal glass -->
+                    <Color x:Key="PetalGlassBg">#E0F0F0F0</Color>
+                    <Color x:Key="PetalGlassHover">#FFE0E0E0</Color>
+                    <Color x:Key="PetalGlassPressed">#FFD8D8D8</Color>
+                    <Color x:Key="PetalBorderStart">#18000000</Color>
+                    <Color x:Key="PetalBorderEnd">#06000000</Color>
+                    <!-- Dialog shell -->
+                    <Color x:Key="DialogBgStart">#F0FAFAFA</Color>
+                    <Color x:Key="DialogBgEnd">#F5F5F5F5</Color>
+                    <Color x:Key="DialogBorderStart">#18000000</Color>
+                    <Color x:Key="DialogBorderEnd">#08000000</Color>
+                    <!-- Text -->
+                    <Color x:Key="TextPrimary">#F01A1A1A</Color>
+                    <Color x:Key="TextSecondary">#CC333333</Color>
+                    <Color x:Key="TextTertiary">#80404040</Color>
+                    <Color x:Key="TextQuaternary">#60606060</Color>
+                    <Color x:Key="TextDisabled">#40808080</Color>
+                    <Color x:Key="TextPlaceholder">#35808080</Color>
+                    <Color x:Key="TextPlaceholderHover">#50606060</Color>
+                    <Color x:Key="TextPlaceholderFocus">#60404040</Color>
+                    <Color x:Key="TextMuted">#A0404040</Color>
+                    <!-- Input controls -->
+                    <Color x:Key="InputBg">#0A000000</Color>
+                    <Color x:Key="InputBgHover">#10000000</Color>
+                    <Color x:Key="InputBorder">#15000000</Color>
+                    <Color x:Key="InputBorderFocus">#30000000</Color>
+                    <Color x:Key="InputFg">#E01A1A1A</Color>
+                    <Color x:Key="InputCaret">#80333333</Color>
+                    <!-- Buttons -->
+                    <Color x:Key="BtnSecondaryBg">#0C000000</Color>
+                    <Color x:Key="BtnSecondaryBgHover">#15000000</Color>
+                    <Color x:Key="BtnSecondaryBorderBrush">#15000000</Color>
+                    <!-- Segmented control -->
+                    <Color x:Key="SegmentBg">#0C000000</Color>
+                    <Color x:Key="SegmentActiveBg">#20000000</Color>
+                    <Color x:Key="SegmentHoverBg">#08000000</Color>
+                    <!-- Action items -->
+                    <Color x:Key="ActionItemBg">#0A000000</Color>
+                    <Color x:Key="ActionItemBgHover">#12000000</Color>
+                    <Color x:Key="ActionItemSelectedBorder">#40000000</Color>
+                    <!-- Misc -->
+                    <Color x:Key="CloseBtnBg">#0C000000</Color>
+                    <Color x:Key="CloseIconStroke">#80333333</Color>
+                    <Color x:Key="PreviewCircleBg">#E0E0E0</Color>
+                    <Color x:Key="IconGridBg">#06000000</Color>
+                    <Color x:Key="InvalidBorder">#50FF4444</Color>
+                    <Color x:Key="InvalidBg">#08FF4444</Color>
+                    <Color x:Key="RequiredStar">#60FF4444</Color>
+                    <Color x:Key="ColorDotSelectedBorder">#CC333333</Color>
+                    <Color x:Key="IconItemSelectedBorder">#40000000</Color>
+                    <Color x:Key="IconItemHoverBg">#0C000000</Color>
+                    <Color x:Key="ShortcutRecordingBorder">#60339AF0</Color>
+                    <Color x:Key="ShortcutRecordingBg">#15339AF0</Color>
+                    <!-- Labels -->
+                    <Color x:Key="LabelTextColor">#E01A1A1A</Color>
+                    <Color x:Key="LabelBgColor">#E0F0F0F0</Color>
+                    <Color x:Key="LabelBorderColor">#18000000</Color>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml"/>
+
+        <!-- ══════ Shared dialog styles ══════ -->
+
+        <!-- Label text -->
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <!-- Pill text inputs -->
+        <Style Selector="TextBox.pill">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource InputFg}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorder}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource InputCaret}"/>
+        </Style>
+        <Style Selector="TextBox.pill:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorderFocus}"/>
+        </Style>
+        <Style Selector="TextBox.pill /template/ Border">
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+        <Style Selector="TextBox.pill:pointerover /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource InputBgHover}"/>
+        </Style>
+        <Style Selector="TextBox.pill:focus /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource InputBgHover}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorderFocus}"/>
+        </Style>
+        <Style Selector="TextBox.pill /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource TextPlaceholder}"/>
+        </Style>
+        <Style Selector="TextBox.pill:pointerover /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource TextPlaceholderHover}"/>
+        </Style>
+        <Style Selector="TextBox.pill:focus /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource TextPlaceholderFocus}"/>
+        </Style>
+
+        <!-- Cancel button -->
+        <Style Selector="Border.btnCancel">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.btnCancel:pointerover">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBgHover}"/>
+        </Style>
+
+    </Application.Styles>
+</Application>

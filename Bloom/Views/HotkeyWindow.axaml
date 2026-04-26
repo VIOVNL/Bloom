@@ -1,0 +1,264 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Bloom.ViewModels"
+        x:Class="Bloom.Views.HotkeyWindow"
+        x:DataType="vm:HotkeyViewModel"
+        Title="Hotkeys"
+        Icon="/Assets/bloom.ico"
+        Width="420" Height="640"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        Topmost="True">
+
+    <Window.Styles>
+        <!-- Base text -->
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <Style Selector="TextBlock.sectionLabel">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="LetterSpacing" Value="1"/>
+        </Style>
+        <Style Selector="TextBlock.settingLabel">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBlock.settingDesc">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+        </Style>
+
+        <!-- Separator -->
+        <Style Selector="Border.separator">
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Background" Value="{DynamicResource InputBorder}"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+
+        <!-- Hotkey button -->
+        <Style Selector="Border.hotkeyBtn">
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorder}"/>
+        </Style>
+        <Style Selector="Border.hotkeyBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentHoverBg}"/>
+        </Style>
+        <Style Selector="Border.hotkeyBtn.recording">
+            <Setter Property="BorderBrush" Value="#339AF0"/>
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+        </Style>
+
+        <!-- Clear button -->
+        <Style Selector="Border.clearBtn">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="CornerRadius" Value="11"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Border.clearBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentHoverBg}"/>
+        </Style>
+
+        <!-- Toggle track -->
+        <Style Selector="Border.toggleTrack">
+            <Setter Property="Width" Value="38"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="CornerRadius" Value="11"/>
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorder}"/>
+        </Style>
+        <Style Selector="Border.toggleTrack.on">
+            <Setter Property="Background" Value="#339AF0"/>
+            <Setter Property="BorderBrush" Value="#4DA8F0"/>
+        </Style>
+        <Style Selector="Border.toggleThumb">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Background" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="2,0,0,0"/>
+        </Style>
+        <Style Selector="Border.toggleTrack.on Border.toggleThumb">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,0,2,0"/>
+        </Style>
+
+        <!-- Tree item rows -->
+        <Style Selector="Border.treeItem">
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="6"/>
+        </Style>
+        <Style Selector="Border.treeItem:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentHoverBg}"/>
+        </Style>
+    </Window.Styles>
+
+    <!-- Main shell -->
+    <Border CornerRadius="14"
+            ClipToBounds="True"
+            BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid RowDefinitions="Auto,*">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto" Margin="20,16,20,12">
+                <TextBlock Classes="heading" Text="Hotkeys" VerticalAlignment="Center"/>
+                <Border x:Name="CloseBtn"
+                        Grid.Column="1"
+                        Width="26" Height="26" CornerRadius="13"
+                        Background="{DynamicResource CloseBtnBg}" Cursor="Hand"
+                        Focusable="True">
+                    <Viewbox Width="10" Height="10">
+                        <Canvas Width="24" Height="24">
+                            <Path Stroke="{DynamicResource CloseIconStroke}" StrokeThickness="2.5"
+                                  StrokeLineCap="Round" StrokeJoin="Round"
+                                  Data="M18 6 6 18 M6 6l12 12"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+            <!-- Scrollable content -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="20,0,20,18" Spacing="0">
+
+                    <!-- Section: Global Hotkeys -->
+                    <TextBlock Classes="sectionLabel" Text="GLOBAL HOTKEYS" Margin="0,0,0,8"/>
+
+                    <!-- Toggle Petals Hotkey -->
+                    <Grid ColumnDefinitions="*,Auto,Auto" Height="40">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Classes="settingLabel" Text="Toggle Petals"/>
+                            <TextBlock Classes="settingDesc" Text="Open or close the petals menu"/>
+                        </StackPanel>
+                        <Border x:Name="PetalsHotkeyBtn" Grid.Column="1" Classes="hotkeyBtn"
+                                Focusable="True"
+                                VerticalAlignment="Center">
+                            <TextBlock x:Name="PetalsHotkeyBtnText"
+                                       Text="Not set"
+                                       FontSize="11" FontWeight="Medium"
+                                       Foreground="{DynamicResource TextTertiary}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="PetalsClearBtn" Grid.Column="2" Classes="clearBtn"
+                                Focusable="True" Margin="4,0,0,0">
+                            <Viewbox Width="10" Height="10">
+                                <Canvas Width="24" Height="24">
+                                    <Path Stroke="{DynamicResource TextTertiary}" StrokeThickness="2.5"
+                                          StrokeLineCap="Round" StrokeJoin="Round"
+                                          Data="M18 6 6 18 M6 6l12 12"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                    </Grid>
+
+                    <Border Classes="separator"/>
+
+                    <!-- Toggle Bloom Hotkey -->
+                    <Grid ColumnDefinitions="*,Auto,Auto" Height="40">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Classes="settingLabel" Text="Toggle Bloom"/>
+                            <TextBlock Classes="settingDesc" Text="Hide or show the Bloom button"/>
+                        </StackPanel>
+                        <Border x:Name="BloomHotkeyBtn" Grid.Column="1" Classes="hotkeyBtn"
+                                Focusable="True"
+                                VerticalAlignment="Center">
+                            <TextBlock x:Name="BloomHotkeyBtnText"
+                                       Text="Not set"
+                                       FontSize="11" FontWeight="Medium"
+                                       Foreground="{DynamicResource TextTertiary}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="BloomClearBtn" Grid.Column="2" Classes="clearBtn"
+                                Focusable="True" Margin="4,0,0,0">
+                            <Viewbox Width="10" Height="10">
+                                <Canvas Width="24" Height="24">
+                                    <Path Stroke="{DynamicResource TextTertiary}" StrokeThickness="2.5"
+                                          StrokeLineCap="Round" StrokeJoin="Round"
+                                          Data="M18 6 6 18 M6 6l12 12"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                    </Grid>
+
+                    <Border Classes="separator"/>
+
+                    <!-- Show Bloom at Cursor -->
+                    <Grid ColumnDefinitions="*,Auto" Height="40">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Classes="settingLabel" Text="Show Bloom at Cursor"/>
+                            <TextBlock Classes="settingDesc" Text="{Binding ShowBloomAtCursorDescription}"/>
+                        </StackPanel>
+                        <Border x:Name="BloomAtCursorToggle" Grid.Column="1" Classes="toggleTrack"
+                                Classes.on="{Binding ShowBloomAtCursor}"
+                                Focusable="True"
+                                VerticalAlignment="Center">
+                            <Border Classes="toggleThumb"/>
+                        </Border>
+                    </Grid>
+
+                    <Border Classes="separator" Margin="0,6"/>
+
+                    <!-- Section: Item Hotkeys -->
+                    <TextBlock Classes="sectionLabel" Text="ITEM HOTKEYS" Margin="0,4,0,4"/>
+                    <TextBlock Classes="settingDesc" Text="Assign hotkeys to launch items or open groups directly." Margin="0,0,0,8"/>
+
+                    <!-- Item tree container -->
+                    <Border CornerRadius="8" ClipToBounds="True"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource InputBorder}"
+                            MaxHeight="325">
+                        <Border.Background>
+                            <SolidColorBrush Color="{DynamicResource IconGridBg}"/>
+                        </Border.Background>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="ItemTreeHost" Margin="4"/>
+                        </ScrollViewer>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+    </Border>
+</Window>

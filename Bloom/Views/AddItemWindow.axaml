@@ -1,0 +1,423 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Bloom.ViewModels"
+        x:Class="Bloom.Views.AddItemWindow"
+        x:DataType="vm:AddItemViewModel"
+        Title="Add Item"
+        Icon="/Assets/bloom.ico"
+        Width="480" Height="720"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent">
+
+    <Window.Styles>
+        <!-- ══════ Base text ══════ -->
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <!-- ══════ Segmented control ══════ -->
+        <Style Selector="Border.segmentedHost">
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Height" Value="34"/>
+        </Style>
+        <Style Selector="Border.segBtn">
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="Border.segBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SegmentHoverBg}"/>
+        </Style>
+        <Style Selector="Border.segBtn.active">
+            <Setter Property="Background" Value="{DynamicResource SegmentActiveBg}"/>
+        </Style>
+        <Style Selector="Border.segBtn TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Border.segBtn.active TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- ══════ Pill text inputs (invalid state — extends shared pill styles) ══════ -->
+        <Style Selector="TextBox.pill.invalid /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource InvalidBorder}"/>
+            <Setter Property="Background" Value="{DynamicResource InvalidBg}"/>
+        </Style>
+
+        <!-- Required star -->
+        <Style Selector="TextBlock.req">
+            <Setter Property="Foreground" Value="{DynamicResource RequiredStar}"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+        <!-- ══════ Browse button ══════ -->
+        <Style Selector="Border.browseBtn">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnSecondaryBorderBrush}"/>
+        </Style>
+        <Style Selector="Border.browseBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBgHover}"/>
+        </Style>
+
+        <!-- ══════ Action picker items ══════ -->
+        <Style Selector="Border.actionItem">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Background" Value="{DynamicResource ActionItemBg}"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="10,7"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.actionItem:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ActionItemBgHover}"/>
+        </Style>
+        <Style Selector="Border.actionItem.selected">
+            <Setter Property="BorderBrush" Value="{DynamicResource ActionItemSelectedBorder}"/>
+            <Setter Property="Background" Value="{DynamicResource ActionItemBgHover}"/>
+        </Style>
+
+        <!-- ══════ Shortcut capture ══════ -->
+        <Style Selector="Border.shortcutCapture">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorder}"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.shortcutCapture.recording">
+            <Setter Property="BorderBrush" Value="{DynamicResource ShortcutRecordingBorder}"/>
+            <Setter Property="Background" Value="{DynamicResource ShortcutRecordingBg}"/>
+        </Style>
+
+        <!-- ══════ Action buttons ══════ -->
+        <Style Selector="Border.btnAdd">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="28,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.btnAdd:pointerover">
+            <Setter Property="Opacity" Value="0.9"/>
+        </Style>
+        <Style Selector="Border.btnAdd.disabled">
+            <Setter Property="Opacity" Value="0.35"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+        </Style>
+
+    </Window.Styles>
+
+    <!-- ══════ Main shell ══════ -->
+    <Border CornerRadius="16"
+            ClipToBounds="True"
+            BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- ══════ Top bar (title + close) ══════ -->
+            <Grid Grid.Row="0" Margin="20,16,20,0" ColumnDefinitions="*,Auto">
+                <TextBlock Classes="heading" Text="{Binding WindowTitle}" VerticalAlignment="Center"/>
+                <Border Grid.Column="1" x:Name="CloseBtn"
+                        Width="28" Height="28" CornerRadius="14"
+                        Background="{DynamicResource CloseBtnBg}" Cursor="Hand"
+                        Focusable="True">
+                    <Border.RenderTransform>
+                        <ScaleTransform/>
+                    </Border.RenderTransform>
+                    <Viewbox Width="12" Height="12">
+                        <Canvas Width="24" Height="24">
+                            <Path Stroke="{DynamicResource CloseIconStroke}" StrokeThickness="2"
+                                  StrokeLineCap="Round" StrokeJoin="Round"
+                                  Data="M18 6 6 18 M6 6l12 12"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+            <!-- ══════ Scrollable content ══════ -->
+            <ScrollViewer Grid.Row="1" Margin="20,14,4,0"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="14" Margin="0,0,16,0">
+
+                    <!-- Live preview circle -->
+                    <Border HorizontalAlignment="Center"
+                            Width="56" Height="56" CornerRadius="28"
+                            ClipToBounds="True"
+                            x:Name="PreviewCircle" Margin="0,0,0,2">
+                        <Border.Background>
+                            <SolidColorBrush Color="{DynamicResource PreviewCircleBg}"/>
+                        </Border.Background>
+                        <Viewbox Width="26" Height="26"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 x:Name="PreviewIcon"/>
+                    </Border>
+
+                    <!-- Type segmented control -->
+                    <Border Classes="segmentedHost">
+                        <Grid ColumnDefinitions="*,*,*,*,*">
+                            <Border x:Name="SegSoftware" Classes="segBtn" Focusable="True"
+                                    Classes.active="{Binding SelectedType, Converter={StaticResource EnumEquals}, ConverterParameter=Software}"
+                                    Grid.Column="0">
+                                <TextBlock Text="Software"/>
+                            </Border>
+                            <Border x:Name="SegFolder" Classes="segBtn" Focusable="True"
+                                    Classes.active="{Binding SelectedType, Converter={StaticResource EnumEquals}, ConverterParameter=Folder}"
+                                    Grid.Column="1">
+                                <TextBlock Text="Folder"/>
+                            </Border>
+                            <Border x:Name="SegCommand" Classes="segBtn" Focusable="True"
+                                    Classes.active="{Binding SelectedType, Converter={StaticResource EnumEquals}, ConverterParameter=Command}"
+                                    Grid.Column="2">
+                                <TextBlock Text="Command"/>
+                            </Border>
+                            <Border x:Name="SegAction" Classes="segBtn" Focusable="True"
+                                    Classes.active="{Binding SelectedType, Converter={StaticResource EnumEquals}, ConverterParameter=Action}"
+                                    Grid.Column="3">
+                                <TextBlock Text="Action"/>
+                            </Border>
+                            <Border x:Name="SegShortcut" Classes="segBtn" Focusable="True"
+                                    Classes.active="{Binding SelectedType, Converter={StaticResource EnumEquals}, ConverterParameter=Shortcut}"
+                                    Grid.Column="4">
+                                <TextBlock Text="Shortcut"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Path section (Software / Folder) -->
+                    <StackPanel x:Name="PathSection" Spacing="0"
+                                IsVisible="{Binding IsPathSectionVisible}">
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <TextBlock Classes="label" x:Name="PathLabel" Text="{Binding PathLabelText}"/>
+                            <TextBlock Classes="req" Text="*"/>
+                        </StackPanel>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBox x:Name="PathBox" Classes="pill"
+                                     Classes.invalid="{Binding IsPathInvalid}"
+                                     Text="{Binding Path}"
+                                     Watermark="Paste or browse for a path..."/>
+                            <Border x:Name="BrowseBtn" Classes="browseBtn" Focusable="True"
+                                    Grid.Column="1" Margin="6,0,0,0"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="Browse" FontSize="12"
+                                           Foreground="{DynamicResource TextMuted}"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Command section -->
+                    <StackPanel x:Name="CommandSection" Spacing="6"
+                                IsVisible="{Binding IsCommandSectionVisible}">
+                        <StackPanel Spacing="0">
+                            <StackPanel Orientation="Horizontal" Spacing="2">
+                                <TextBlock Classes="label" Text="COMMAND"/>
+                                <TextBlock Classes="req" Text="*"/>
+                            </StackPanel>
+                            <TextBox x:Name="CmdBox" Classes="pill"
+                                     Text="{Binding Path}"
+                                     Watermark="e.g. powershell, cmd, wt"/>
+                        </StackPanel>
+                        <StackPanel Spacing="0">
+                            <TextBlock Classes="label" Text="ARGUMENTS"/>
+                            <TextBox Classes="pill"
+                                     Text="{Binding Arguments}"
+                                     Watermark="e.g. -NoProfile -Command ..."/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Action picker section -->
+                    <StackPanel x:Name="ActionSection" Spacing="4"
+                                IsVisible="{Binding IsActionSectionVisible}">
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <TextBlock Classes="label" Text="CHOOSE ACTION"/>
+                            <TextBlock Classes="req" Text="*"/>
+                        </StackPanel>
+                        <WrapPanel x:Name="ActionGrid"/>
+                    </StackPanel>
+
+                    <!-- Shortcut capture section -->
+                    <StackPanel x:Name="ShortcutSection" Spacing="4"
+                                IsVisible="{Binding IsShortcutSectionVisible}">
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <TextBlock Classes="label" Text="SHORTCUT KEYS"/>
+                            <TextBlock Classes="req" Text="*"/>
+                        </StackPanel>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Border x:Name="ShortcutCapture" Classes="shortcutCapture"
+                                    Focusable="True">
+                                <TextBlock x:Name="ShortcutDisplay"
+                                           Text="Click to record shortcut..."
+                                           Foreground="{DynamicResource TextPlaceholder}" FontSize="12"
+                                           VerticalAlignment="Center" Margin="12,0"/>
+                            </Border>
+                            <Border x:Name="ShortcutClearBtn" Classes="browseBtn" Focusable="True"
+                                    Grid.Column="1" Margin="6,0,0,0"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="Clear" FontSize="12"
+                                           Foreground="{DynamicResource TextMuted}"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Details: hidden until path selected (Software/Folder) or always for Command/Action/Shortcut -->
+                    <StackPanel x:Name="DetailsSection" Spacing="14"
+                                IsVisible="{Binding DetailsRevealed}">
+
+                        <!-- Label -->
+                        <StackPanel Spacing="0">
+                            <StackPanel Orientation="Horizontal" Spacing="2">
+                                <TextBlock Classes="label" Text="LABEL"/>
+                                <TextBlock Classes="req" Text="*"/>
+                            </StackPanel>
+                            <TextBox x:Name="LabelBox" Classes="pill"
+                                     Text="{Binding Label}"
+                                     Watermark="Display name"/>
+                        </StackPanel>
+
+                        <!-- Software args -->
+                        <StackPanel x:Name="SoftwareArgsSection" Spacing="0"
+                                    IsVisible="{Binding IsSoftwareArgsSectionVisible}">
+                            <TextBlock Classes="label" Text="ARGUMENTS (OPTIONAL)"/>
+                            <TextBox Classes="pill"
+                                     Text="{Binding Arguments}"
+                                     Watermark="e.g. --profile Default"/>
+                        </StackPanel>
+
+                        <!-- Working directory -->
+                        <StackPanel x:Name="WorkingDirSection" Spacing="0"
+                                    IsVisible="{Binding IsWorkingDirectorySectionVisible}">
+                            <TextBlock Classes="label" Text="WORKING DIRECTORY (OPTIONAL)"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBox x:Name="WorkingDirBox" Classes="pill"
+                                         Text="{Binding WorkingDirectory}"
+                                         Watermark="Default: Documents"/>
+                                <Border x:Name="WorkingDirBrowseBtn" Classes="browseBtn" Focusable="True"
+                                        Grid.Column="1" Margin="6,0,0,0"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="Browse" FontSize="12"
+                                               Foreground="{DynamicResource TextMuted}"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Icon source toggle -->
+                        <StackPanel x:Name="IconSourceSection" Spacing="4"
+                                    IsVisible="{Binding IsIconSourceSectionVisible}">
+                            <TextBlock Classes="label" Text="ICON SOURCE"/>
+                            <Border Classes="segmentedHost">
+                                <Grid x:Name="IconSourceGrid" ColumnDefinitions="*,*,*">
+                                    <Border x:Name="IconSrcAuto" Classes="segBtn" Focusable="True"
+                                            Classes.active="{Binding IconSource, Converter={StaticResource EnumEquals}, ConverterParameter=Auto}"
+                                            Grid.Column="0">
+                                        <TextBlock Text="App Icon"/>
+                                    </Border>
+                                    <Border x:Name="IconSrcBuiltIn" Classes="segBtn" Focusable="True"
+                                            Classes.active="{Binding IconSource, Converter={StaticResource EnumEquals}, ConverterParameter=BuiltIn}"
+                                            Grid.Column="1">
+                                        <TextBlock Text="Choose Icon"/>
+                                    </Border>
+                                    <Border x:Name="IconSrcFile" Classes="segBtn" Focusable="True"
+                                            Classes.active="{Binding IconSource, Converter={StaticResource EnumEquals}, ConverterParameter=File}"
+                                            Grid.Column="2">
+                                        <TextBlock Text="Select Icon"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Icon + Color preview (opens IconChooserWindow) -->
+                        <StackPanel x:Name="IconPreviewSection" Spacing="4"
+                                    IsVisible="{Binding IsIconPreviewSectionVisible}">
+                            <TextBlock Classes="label" Text="ICON &amp; COLOR"/>
+                            <Border x:Name="ChooseIconBtn" Classes="browseBtn" Focusable="True"
+                                    HorizontalAlignment="Left" Padding="8,6">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border Width="26" Height="26" CornerRadius="13"
+                                            Background="{DynamicResource PreviewCircleBg}" ClipToBounds="True"
+                                            x:Name="IconMiniPreview">
+                                        <Viewbox Width="14" Height="14"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 x:Name="IconMiniPreviewIcon"/>
+                                    </Border>
+                                    <TextBlock x:Name="IconMiniLabel"
+                                               Text="rocket"
+                                               FontSize="12" Foreground="{DynamicResource TextMuted}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text="Change..."
+                                               FontSize="11" Foreground="{DynamicResource TextPlaceholderFocus}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <!-- Spacer at bottom for scroll -->
+                    <Border Height="4"/>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- ══════ Bottom action bar ══════ -->
+            <Grid Grid.Row="2" Margin="20,10,20,16" ColumnDefinitions="Auto,8,Auto,*,Auto">
+                <Border x:Name="CancelBtn" Grid.Column="0" Classes="btnCancel" Focusable="True">
+                    <TextBlock Text="Cancel" FontSize="13"
+                               Foreground="{DynamicResource TextTertiary}"
+                               VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="DeleteBtn" Grid.Column="2" Classes="btnAdd" Focusable="True"
+                        Background="#FF6B6B" IsVisible="{Binding IsEditMode}">
+                    <TextBlock Text="Delete" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White" VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="AddBtn" Grid.Column="4" Classes="btnAdd" Focusable="True"
+                        Classes.disabled="{Binding !CanConfirm}"
+                        Background="#339AF0">
+                    <TextBlock Text="{Binding ConfirmButtonText}" FontSize="13" FontWeight="SemiBold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

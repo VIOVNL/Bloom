@@ -1,0 +1,110 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Bloom.ViewModels"
+        x:Class="Bloom.Views.UpdateWindow"
+        x:DataType="vm:UpdateWindowViewModel"
+        Title="Update"
+        Icon="/Assets/bloom.ico"
+        Width="320" Height="180"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        Topmost="True">
+
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <Style Selector="TextBlock.versionInfo">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+        </Style>
+        <Style Selector="TextBlock.status">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+        </Style>
+
+        <!-- Progress bar track -->
+        <Style Selector="Border.progressTrack">
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="{DynamicResource SegmentBg}"/>
+        </Style>
+        <!-- Progress bar fill -->
+        <Style Selector="Border.progressFill">
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="#339AF0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <!-- Cancel button -->
+        <Style Selector="Border.cancelBtn">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBg}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorder}"/>
+        </Style>
+        <Style Selector="Border.cancelBtn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBgHover}"/>
+        </Style>
+        <Style Selector="Border.cancelBtn TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+    </Window.Styles>
+
+    <!-- Main shell -->
+    <Border CornerRadius="14"
+            ClipToBounds="True"
+            BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBorderStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBorderEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{DynamicResource DialogBgStart}" Offset="0"/>
+                <GradientStop Color="{DynamicResource DialogBgEnd}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <StackPanel Margin="20,16,20,18" Spacing="10">
+
+            <!-- Header -->
+            <TextBlock Classes="heading" Text="Update Available"/>
+
+            <!-- Version info -->
+            <TextBlock Classes="versionInfo" x:Name="VersionInfo" Text="{Binding VersionInfo}"/>
+
+            <!-- Progress bar -->
+            <Border Classes="progressTrack">
+                <Border x:Name="ProgressFill" Classes="progressFill" Width="{Binding ProgressWidth}"/>
+            </Border>
+
+            <!-- Status -->
+            <TextBlock Classes="status" x:Name="StatusText" Text="{Binding StatusText}"
+                       HorizontalAlignment="Center"/>
+
+            <!-- Cancel button -->
+            <Border x:Name="CancelBtn" Classes="cancelBtn" Focusable="True">
+                <TextBlock Text="Cancel"/>
+            </Border>
+
+        </StackPanel>
+    </Border>
+</Window>

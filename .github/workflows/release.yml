@@ -1,0 +1,189 @@
+name: "Release: Full"
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump type"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      notes:
+        description: "Changelog notes (pipe-separated, e.g. Fixed crash|Added new icons)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Velopack CLI
+        run: dotnet tool install -g vpk
+
+      - name: Bump version
+        id: version
+        shell: pwsh
+        run: |
+          $csproj = "Bloom\Bloom.csproj"
+          $xml = [xml](Get-Content $csproj)
+          $versionNode = $null
+          foreach ($pg in $xml.Project.PropertyGroup) {
+              if ($pg.Version) { $versionNode = $pg.Version; break }
+          }
+          if (-not $versionNode) {
+              Write-Error "Could not find <Version> in $csproj"
+              exit 1
+          }
+
+          $parts = $versionNode -split '\.'
+          $major = [int]$parts[0]
+          $minor = [int]$parts[1]
+          $patch = [int]$parts[2]
+
+          switch ("${{ github.event.inputs.bump }}") {
+              "major" { $major++; $minor = 0; $patch = 0 }
+              "minor" { $minor++; $patch = 0 }
+              default { $patch++ }
+          }
+
+          $newVersion = "$major.$minor.$patch"
+          $newAssembly = "$major.$minor.$patch.0"
+
+          $content = Get-Content $csproj -Raw
+          $content = $content -replace '<Version>[^<]+</Version>', "<Version>$newVersion</Version>"
+          $content = $content -replace '<AssemblyVersion>[^<]+</AssemblyVersion>', "<AssemblyVersion>$newAssembly</AssemblyVersion>"
+          $content = $content -replace '<FileVersion>[^<]+</FileVersion>', "<FileVersion>$newAssembly</FileVersion>"
+          Set-Content $csproj $content -NoNewline
+
+          Write-Host "Version: $newVersion"
+          "version=$newVersion" >> $env:GITHUB_OUTPUT
+
+      - name: Update changelog
+        shell: pwsh
+        run: |
+          $changelogPath = "BloomFront/changelog.json"
+          $changelog = Get-Content $changelogPath -Raw | ConvertFrom-Json
+
+          $notes = "${{ github.event.inputs.notes }}"
+          $changes = @()
+
+          if ($notes -and $notes.Trim()) {
+              $notes.Split('|') | ForEach-Object {
+                  $trimmed = $_.Trim()
+                  if ($trimmed) {
+                      $type = "added"
+                      if ($trimmed -match '^(added|fixed|changed|removed):\s*(.+)$') {
+                          $type = $Matches[1]
+                          $trimmed = $Matches[2]
+                      }
+                      $changes += @{ type = $type; text = $trimmed }
+                  }
+              }
+          } else {
+              $changes += @{ type = "fixed"; text = "Bug fixes and improvements" }
+          }
+
+          $monthNames = @('January','February','March','April','May','June','July','August','September','October','November','December')
+          $now = Get-Date
+          $dateStr = "$($monthNames[$now.Month - 1]) $($now.Year)"
+
+          $newEntry = [ordered]@{
+              version = "${{ steps.version.outputs.version }}"
+              date = $dateStr
+              changes = $changes
+          }
+
+          $newChangelog = @($newEntry) + @($changelog)
+          $newChangelog | ConvertTo-Json -Depth 10 | Set-Content $changelogPath
+
+          Write-Host "Changelog updated with v${{ steps.version.outputs.version }}"
+
+      - name: Build frontend
+        shell: bash
+        working-directory: BloomFront
+        run: |
+          npm install
+          npm run build
+
+      - name: Publish
+        run: dotnet publish Bloom\Bloom.csproj -c Release -r win-x64 --no-self-contained -o publish
+
+      - name: Package with Velopack
+        run: >
+          vpk pack
+          --packId Bloom
+          --packVersion ${{ steps.version.outputs.version }}
+          --packDir publish
+          --mainExe Bloom.exe
+          --packTitle "Bloom"
+          --framework net10.0-x64-desktop
+          --icon Bloom\Assets\bloom.ico
+
+      - name: Upload updates via FTP
+        shell: bash
+        run: |
+          for file in \
+            Releases/Bloom-${{ steps.version.outputs.version }}-full.nupkg \
+            Releases/Bloom-${{ steps.version.outputs.version }}-delta.nupkg \
+            Releases/releases.win.json \
+            Releases/assets.win.json \
+            Releases/RELEASES; do
+            if [ -f "$file" ]; then
+              echo "Uploading $(basename "$file") to /updates..."
+              curl -T "$file" \
+                --ftp-create-dirs \
+                "ftp://${{ secrets.FTP_SERVER }}/updates/$(basename "$file")" \
+                --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}"
+            fi
+          done
+
+      - name: Upload installer via FTP
+        shell: bash
+        run: |
+          echo "Uploading Setup.exe to /downloads..."
+          curl -T "Releases/Bloom-win-Setup.exe" \
+            --ftp-create-dirs \
+            "ftp://${{ secrets.FTP_SERVER }}/downloads/Bloom-win-Setup.exe" \
+            --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}"
+
+      - name: Upload frontend via FTP
+        shell: bash
+        working-directory: BloomFront/dist
+        run: |
+          find . -type f -not -name '.*' -not -path './api/*' | while read file; do
+            remote_path="${file#./}"
+            echo "Uploading $remote_path..."
+            curl -T "$file" \
+              --ftp-create-dirs \
+              "ftp://${{ secrets.FTP_SERVER }}/$remote_path" \
+              --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}"
+          done
+
+      - name: Commit version bump
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Bloom/Bloom.csproj BloomFront/changelog.json
+          git commit -m "release v${{ steps.version.outputs.version }}"
+          git push

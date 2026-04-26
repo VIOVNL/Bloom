@@ -1,0 +1,184 @@
+[
+  {
+    "version": "1.0.18",
+    "date": "2026-03-04",
+    "entries": [
+      {
+        "type": "feature",
+        "text": "Hotkey Management window: assign global keyboard shortcuts from a dedicated panel in Settings"
+      },
+      {
+        "type": "feature",
+        "text": "Toggle Petals hotkey: press a key combo to open or close your petals from anywhere"
+      },
+      {
+        "type": "feature",
+        "text": "Toggle Bloom hotkey: show or hide the entire Bloom window with a single shortcut"
+      },
+      {
+        "type": "feature",
+        "text": "Per-item hotkeys: assign a key combo to any item to launch it directly, or to any group to open its bloom"
+      },
+      {
+        "type": "feature",
+        "text": "Show Bloom at Cursor: enable this option to have Bloom appear at your mouse position when triggered by hotkey"
+      },
+      {
+        "type": "feature",
+        "text": "Working directory: optionally set a startup folder for each Software or Command item (defaults to Documents)"
+      },
+      {
+        "type": "improvement",
+        "text": "Hotkey conflict detection warns you when a key combo is already assigned to another action"
+      },
+      {
+        "type": "improvement",
+        "text": "Clear buttons next to every hotkey field let you unset shortcuts with a single click"
+      },
+      {
+        "type": "improvement",
+        "text": "Item hotkey tree view displays groups as parents with their children indented underneath"
+      },
+      {
+        "type": "improvement",
+        "text": "Launched applications now run as independent processes instead of child processes of Bloom"
+      },
+      {
+        "type": "fix",
+        "text": "Hotkeys no longer fire multiple times when held down or pressed rapidly"
+      },
+      {
+        "type": "fix",
+        "text": "Auto-unbloom now works correctly when the bloom is opened via a hotkey"
+      }
+    ]
+  },
+  {
+    "version": "1.0.17",
+    "date": "2026-03-03",
+    "entries": [
+      {
+        "type": "feature",
+        "text": "Groups: organize your items into folders that open as nested blooms"
+      },
+      {
+        "type": "feature",
+        "text": "Navigate into groups with a click and use the back button to return"
+      },
+      {
+        "type": "feature",
+        "text": "Dedicated 'Add Group' petal in the settings bloom for quick group creation"
+      },
+      {
+        "type": "feature",
+        "text": "Edit groups by right-clicking their petal — change name, icon, color, and members"
+      },
+      {
+        "type": "improvement",
+        "text": "Cycle detection prevents circular group nesting"
+      },
+      {
+        "type": "improvement",
+        "text": "Exit icon updated to a log-out arrow for better clarity"
+      },
+      {
+        "type": "improvement",
+        "text": "Click-through: clicks pass through empty space to apps behind the bloom"
+      },
+      {
+        "type": "improvement",
+        "text": "Canvas size is now computed once from the largest group, improving performance"
+      },
+      {
+        "type": "fix",
+        "text": "Icon and color changes now save correctly when editing items and groups"
+      },
+      {
+        "type": "fix",
+        "text": "Bloom no longer hides instantly on focus loss — smooth close animation plays"
+      },
+      {
+        "type": "fix",
+        "text": "Focus loss respects the 'auto unbloom' setting — bloom stays open when disabled"
+      },
+      {
+        "type": "fix",
+        "text": "Auto unbloom now works reliably on repeated open/close cycles"
+      },
+      {
+        "type": "fix",
+        "text": "Clicking a group petal no longer closes the bloom — it navigates into the group"
+      },
+      {
+        "type": "fix",
+        "text": "Opening dialogs (settings, add item, etc.) no longer races with the focus-loss close"
+      },
+      {
+        "type": "feature",
+        "text": "Always on Top setting: choose whether Bloom stays above all windows or behaves like a normal window"
+      },
+      {
+        "type": "improvement",
+        "text": "Bloom button always renders on top of petals for reliable click access"
+      },
+      {
+        "type": "improvement",
+        "text": "Dragging Bloom while petals are animating now snaps them to their final position instantly"
+      },
+      {
+        "type": "fix",
+        "text": "Petals no longer lose their topmost status when focusing another window (with auto-unbloom off)"
+      },
+      {
+        "type": "fix",
+        "text": "Petal canvas now stays centered on the Bloom button after dragging or on fresh app start"
+      }
+    ]
+  },
+  {
+    "version": "1.0.16",
+    "date": "2026-03-02",
+    "entries": [
+      {
+        "type": "feature",
+        "text": "Drag & drop files, folders, shortcuts and executables directly onto Bloom to add them"
+      },
+      {
+        "type": "feature",
+        "text": "Smart file-type icons: video, image, audio, code, archive, spreadsheet and more get their own icon"
+      },
+      {
+        "type": "feature",
+        "text": "Toast notification confirms when items are added via drag & drop"
+      },
+      {
+        "type": "feature",
+        "text": "Changelog window shows what's new after each update"
+      },
+      {
+        "type": "improvement",
+        "text": "Bloom button lights up with color when dragging files over it"
+      },
+      {
+        "type": "improvement",
+        "text": "Drag & drop now works even while the bloom menu is open"
+      },
+      {
+        "type": "improvement",
+        "text": "Exit icon changed from X to a dedicated icon for better clarity"
+      },
+      {
+        "type": "fix",
+        "text": "Settings file no longer gets deleted during updates"
+      },
+      {
+        "type": "fix",
+        "text": "Folder labels no longer appear empty when added via drag & drop"
+      },
+      {
+        "type": "fix",
+        "text": "Petal window no longer clips on first launch"
+      }
+    ]
+  }
+]

@@ -1,0 +1,19 @@
+RewriteEngine On
+
+# Pass Authorization header to PHP
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Block direct access to sensitive directories
+RewriteRule ^data/ - [F,L]
+RewriteRule ^logs/ - [F,L]
+
+# API routes — pass to PHP router
+RewriteRule ^api/uploads/(.+)$ api/router.php [L,QSA]
+RewriteRule ^api/(.+)$ api/router.php [L,QSA]
+
+# If the request is for an existing file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Otherwise send everything to index.html for Vue Router
+RewriteRule ^ index.html [L]
