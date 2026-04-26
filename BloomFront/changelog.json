@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.0.23",
+    "date": "April 2026",
+    "changes": [
+      {
+        "type": "added",
+        "text": "Optimizations"
+      }
+    ]
+  },
+  {
     "version": "1.0.22",
     "date": "April 2026",
     "changes": [
