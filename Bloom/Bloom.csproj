@@ -9,6 +9,16 @@
     <Version>1.0.22</Version>
     <AssemblyVersion>1.0.22.0</AssemblyVersion>
     <FileVersion>1.0.22.0</FileVersion>
+    <Authors>VIOVNL</Authors>
+    <Company>VIOV</Company>
+    <Product>Bloom</Product>
+    <AssemblyTitle>Bloom</AssemblyTitle>
+    <Description>A radial petal launcher for Windows. One button, every shortcut.</Description>
+    <Copyright>Copyright (c) 2026 VIOVNL</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <RepositoryUrl>https://github.com/VIOVNL/Bloom</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://bloom.viov.nl</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
