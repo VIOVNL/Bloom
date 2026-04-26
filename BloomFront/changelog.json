@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.0.22",
+    "date": "April 2026",
+    "changes": [
+      {
+        "type": "added",
+        "text": "Source code made public on GitHub"
+      }
+    ]
+  },
+  {
     "version": "1.0.21",
     "date": "March 2026",
     "changes": [
